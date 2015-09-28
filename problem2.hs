@@ -4,7 +4,7 @@ problem2 =
   in sum $ takeWhile (<= 4000000) evenFibonacci
 
 memoizedFib :: Int -> Integer
-memoizedFib = (map fib [0 ..] !!)
+memoizedFib = (map fib [0..] !!)
   where fib 0 = 0
         fib 1 = 1
-        fib n = memoizedFib (n-2) + memoizedFib (n-1)
+        fib n = memoizedFib (n - 2) + memoizedFib (n - 1)
