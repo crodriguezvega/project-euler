@@ -14,6 +14,6 @@ pythagoreanTriplet (m, n) =
 problem9 :: Int
 problem9 = 
   let targetSum = 1000
-      pairs = [(x, y) | x <- [1..], y <- [1..x - 1]]
+      pairs = [(x, y) | x <- [2..], y <- [1..x - 1]]
       condition triplet = sumTriplet triplet /= targetSum 
   in productTriplet $ head $ dropWhile condition $ map pythagoreanTriplet pairs
