@@ -1,4 +1,4 @@
-problem3 :: Integer
+problem3 :: Int
 problem3 = largestPrimeFactor 600851475143 2
   where largestPrimeFactor n f | n <= f    = f
                                | otherwise = largestPrimeFactor number factor
