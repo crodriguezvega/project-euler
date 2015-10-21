@@ -1,3 +1,12 @@
+{-
+  Using Euclid's formula to generate Pythagorean triplets:
+  https://en.wikipedia.org/wiki/Pythagorean_triple
+  
+  Solution takes advantage of lazy evaluation, and that's why an infinite
+  list of pairs of values (m, n) (following naming convention of Euclid's
+  formula) is generated.
+-}
+
 sumTriplet :: (Integral a) => (a, a, a) -> a
 sumTriplet (a, b, c) = a + b + c
 
@@ -14,6 +23,6 @@ pythagoreanTriplet (m, n) =
 problem9 :: Int
 problem9 = 
   let targetSum = 1000
-      pairs = [(x, y) | x <- [1..], y <- [1..x - 1]]
+      pairs = [(m, n) | m <- [1..], n <- [1..m - 1]]
       condition triplet = sumTriplet triplet /= targetSum 
   in productTriplet $ head $ dropWhile condition $ map pythagoreanTriplet pairs
