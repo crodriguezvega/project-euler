@@ -8,4 +8,4 @@ memoizedCollatzLength = (map collatzLength [0..] !!)
           where x = if even number then quot number 2 else 3 * number + 1
 
 problem14 :: Int
-problem14 = fst $ maximumBy (comparing snd) $ map (\n -> (n, memoizedCollatzLength n)) [1..10000]
+problem14 = fst $ maximumBy (comparing snd) $ map (\n -> (n, memoizedCollatzLength n)) [1..1000000]
