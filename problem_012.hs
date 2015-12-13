@@ -1,3 +1,12 @@
+{-
+  Using the formulat to generate triangular nubmers:
+  https://en.wikipedia.org/wiki/Triangular_number
+  
+  And the fact that divisors can be listed in pairs if we test
+  for divisibility up to the square root of the number:
+  http://mathschallenge.net/library/number/number_of_divisors.
+-}
+
 import Data.List
 
 isqrt :: Int -> Int
