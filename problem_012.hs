@@ -4,7 +4,7 @@
   
   And the fact that divisors can be listed in pairs if we test
   for divisibility up to the square root of the number:
-  http://mathschallenge.net/library/number/number_of_divisors.
+  http://mathschallenge.net/library/number/number_of_divisors
 -}
 
 import Data.List
@@ -20,7 +20,7 @@ divisors (n, [])     = []
 divisors (n, (x:xs)) = case n `mod` x of 0 -> x : y : divisors (n, xs)
                                               where y = quot n x
                                          _ -> divisors (n, xs)
-                    
+
 problem12 :: Int
 problem12 = head $ reverse
                  $ sort
