@@ -24,4 +24,4 @@ readLines = fmap lines . readFile
 
 problem13 = do
   content <- readLines "files/problem_013.txt"
-  return $ fromDigits $ reverse $ sumColumns $ sumRows 50 $ toArray $ toIntegers content
+  return $ reverse $ sumColumns $ sumRows 50 $ toArray $ toIntegers content
