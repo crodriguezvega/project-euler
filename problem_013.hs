@@ -13,7 +13,7 @@ sumRows col arr
   | otherwise = []
   where res = foldr (\i acc -> (!) arr (i, col) + acc) 0 [1..100]
 
-toArray :: [[Int]] ->  Array (Int, Int) Int
+toArray :: [[Int]] -> Array (Int, Int) Int
 toArray m = listArray ((1, 1), (100, 50)) $ concat m
 
 toIntegers :: [String] -> [[Int]]
