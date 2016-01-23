@@ -1,3 +1,23 @@
+problem17 :: Int
+problem17 = sum $ map length $ map toWords [1..1000]
+
+toWords :: Int -> String
+toWords n = quotientToWord quotient remainder ++ remainderToWord remainder
+            where quotient = n `div` 100
+                  remainder = n `mod` 100
+
+quotientToWord :: Int -> Int -> String
+quotientToWord q r
+  | q == 0          = ""
+  | q > 0 && q < 10 = toWord q ++ "hundred" ++ and
+  | otherwise       = toWord (q `div` 10) ++ "thousand"
+                      where and = if r > 0 then "and" else ""
+
+remainderToWord :: Int -> String
+remainderToWord r
+  | r < 20    = toWord r
+  | otherwise = toWord r ++ toWord (r `mod` 10)
+
 toWord :: Int -> String
 toWord 0  = ""
 toWord 1  = "one"
@@ -29,23 +49,3 @@ toWord n
   | n >= 80 && n < 90  = "eighty"
   | n >= 90 && n < 100 = "ninety"
   | otherwise          = error "error"
-
-remainderToWord :: Int -> String
-remainderToWord r
-  | r < 20    = toWord r
-  | otherwise = toWord r ++ toWord (r `mod` 10)
-  
-quotientToWord :: Int -> Int -> String
-quotientToWord q r
-  | q == 0          = ""
-  | q > 0 && q < 10 = toWord q ++ "hundred" ++ and
-  | otherwise       = toWord (q `div` 10) ++ "thousand"
-                      where and = if r > 0 then "and" else ""
-
-toWords :: Int -> String
-toWords n = quotientToWord quotient remainder ++ remainderToWord remainder
-            where quotient = n `div` 100
-                  remainder = n `mod` 100
-
-problem17 :: Int
-problem17 = sum $ map length $ map toWords [1..1000]

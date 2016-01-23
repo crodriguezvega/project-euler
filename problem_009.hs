@@ -7,12 +7,13 @@
   formula) is generated.
 -}
 
-sumTriplet :: (Integral a) => (a, a, a) -> a
-sumTriplet (a, b, c) = a + b + c
-
-productTriplet :: (Integral a) => (a, a, a) -> a
-productTriplet (a, b, c) = a * b * c
-
+problem9 :: Int
+problem9 = 
+  let targetSum = 1000
+      pairs = [(m, n) | m <- [2..], n <- [1..m - 1]]
+      condition triplet = sumTriplet triplet /= targetSum 
+  in productTriplet $ head $ dropWhile condition $ map pythagoreanTriplet pairs
+  
 pythagoreanTriplet :: (Integral a) => (a, a) -> (a, a, a)
 pythagoreanTriplet (m, n) =
   let a = m^2 - n^2
@@ -20,9 +21,8 @@ pythagoreanTriplet (m, n) =
       c = (m^2 + n^2);
   in (a, b, c)
 
-problem9 :: Int
-problem9 = 
-  let targetSum = 1000
-      pairs = [(m, n) | m <- [2..], n <- [1..m - 1]]
-      condition triplet = sumTriplet triplet /= targetSum 
-  in productTriplet $ head $ dropWhile condition $ map pythagoreanTriplet pairs
+productTriplet :: (Integral a) => (a, a, a) -> a
+productTriplet (a, b, c) = a * b * c
+
+sumTriplet :: (Integral a) => (a, a, a) -> a
+sumTriplet (a, b, c) = a + b + c
