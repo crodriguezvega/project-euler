@@ -1,5 +1,5 @@
 {-
-  Using the formula to generate triangular nubmers:
+  Using the formula to generate triangular numbers:
   https://en.wikipedia.org/wiki/Triangular_number
   
   And the fact that divisors can be listed in pairs if we test
