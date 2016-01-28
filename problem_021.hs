@@ -12,7 +12,7 @@ problem21 = sumAmicable $ amicable Map.empty
                         $ map divisors [(x, [1..isqrt x]) | x <- [1..9999]]
 
 sumAmicable :: [Maybe (Int, Int)] -> Int
-sumAmicable [] = 0
+sumAmicable []     = 0
 sumAmicable (x:xs) = case x of Nothing              -> sumAmicable xs
                                Just (number, total) -> number + total + sumAmicable xs
 
