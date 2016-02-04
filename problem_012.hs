@@ -18,8 +18,9 @@ problem12 = head $ reverse
 
 divisors :: (Int, [Int]) -> [Int]
 divisors (n, [])     = []
-divisors (n, (x:xs)) = case n `mod` x of 0 -> x : y : divisors (n, xs)
-                                              where y = quot n x
+divisors (n, (x:xs)) = case n `mod` x of 0 -> if x == y then x : divisors (n, xs)
+                                              else x : y : divisors (n, xs)
+                                                where y = quot n x
                                          _ -> divisors (n, xs)
 
 triangularNumbers :: [Int]

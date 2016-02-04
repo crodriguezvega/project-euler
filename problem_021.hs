@@ -34,8 +34,9 @@ isAmicable m number total = case (Map.lookup total m) of
 
 divisors :: (Int, [Int]) -> [Int]
 divisors (n, [])     = []
-divisors (n, (x:xs)) = case n `mod` x of 0 -> y : x : divisors (n, xs)
-                                              where y = quot n x
+divisors (n, (x:xs)) = case n `mod` x of 0 -> if x == y then x : divisors (n, xs)
+                                              else y : x : divisors (n, xs)
+                                                where y = quot n x
                                          _ -> divisors (n, xs)
 
 isqrt :: Int -> Int
