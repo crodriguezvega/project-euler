@@ -2,17 +2,17 @@ import Data.List
 
 problem23 :: Int
 problem23 = abs diff
-            where diff = totalNumbersNotSumOfAbundant - totalNumbersSumOfAbundant
-                  totalNumbersNotSumOfAbundant = sum [1..threshold]
-                  totalNumbersSumOfAbundant = sum $ unique $ numbersSumOfAbundant $ abundantNumbers
+            where diff = total - totalSumOfAbundant
+                  total = sum [1..threshold]
+                  totalSumOfAbundant = sum $ unique $ sumOfAbundant $ abundant
 
-numbersSumOfAbundant :: [Int] -> [Int]
-numbersSumOfAbundant []         = []
-numbersSumOfAbundant all@(x:xs) = [x + y | y <- all, x + y <= threshold] ++ numbersSumOfAbundant xs
+sumOfAbundant :: [Int] -> [Int]
+sumOfAbundant []         = []
+sumOfAbundant all@(x:xs) = [x + y | y <- all, x + y <= threshold] ++ sumOfAbundant xs
 
-abundantNumbers :: [Int]
-abundantNumbers = map (\xs -> head xs) $ filter (\xs -> (head xs) < (sum $ tail xs))
-                                       $ map divisors [(x, [1..isqrt x]) | x <- [1..threshold]]  
+abundant :: [Int]
+abundant = map (\xs -> head xs) $ filter (\xs -> (head xs) < (sum $ tail xs))
+                                $ map divisors [(x, [1..isqrt x]) | x <- [1..threshold]]  
 
 -- head of output list is the input number
 divisors :: (Int, [Int]) -> [Int]
