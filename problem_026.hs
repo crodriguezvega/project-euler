@@ -14,12 +14,12 @@ import Data.List
 import Data.List (inits)
 import Data.Array.Unboxed
 
-problem26 :: Int
+problem26 :: Integer
 problem26 = fst $ maximumBy (comparing snd)
-                $ map (\p -> (p, multiplicativeOrder 10 p)) primes
+                $ map (\p -> (p, multiplicativeOrder 10 p))
+                $ map toInteger primes
             where primes = takeWhile (<1000) primesSAE
 
-multiplicativeOrder :: (Integral a) => a -> a -> a
 multiplicativeOrder a 2 = 0
 multiplicativeOrder a 5 = 0
 multiplicativeOrder a n = fst $ head
