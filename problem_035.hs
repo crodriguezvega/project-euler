@@ -11,19 +11,20 @@ problem35 :: Int
 problem35 = length $ circularPrimes primes
 
 circularPrimes [] = []
-circularPrimes all@(x:xs)
-  | isCircular digits rotations all = rotations ++ circularPrimes remaining
-  | otherwise                       = circularPrimes xs
+circularPrimes p@(x:xs)
+  | sumDigits > 2 && isMultipleOf2 digits    = circularPrimes xs
+  | sumDigits > 3 && isMultipleOf3 sumDigits = circularPrimes xs
+  | sumDigits > 5 && isMultipleOf5 digits    = circularPrimes xs
+  | all (\x -> elem x p) rotations           = rotations ++ circularPrimes remaining
+  | otherwise                                = circularPrimes xs
   where digits    = reverse $ toDigits x
+        sumDigits = sum digits
         rotations = nub $ map fromDigits $ rotate $ digits
         remaining = filter (\x -> not $ elem x rotations) xs
 
-isCircular digits rotations primes
-  | sumDigits > 2 && any (\x -> x `mod` 2 == 0) digits = False
-  | sumDigits > 3 && mod sumDigits 3 == 0              = False
-  | sumDigits > 5 && (elem 0 digits || elem 5 digits)  = False
-  | otherwise                                          = all (\x -> elem x primes) rotations
-  where sumDigits = sum digits
+isMultipleOf2 digits = any (\x -> x `mod` 2 == 0) digits
+isMultipleOf3 sumDigits = sumDigits `mod` 3 == 0
+isMultipleOf5 digits = elem 0 digits || elem 5 digits
 
 -- http://stackoverflow.com/questions/7631664/how-to-define-a-rotates-function
 shift [] = []
