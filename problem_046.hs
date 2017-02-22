@@ -17,7 +17,7 @@ oddComposites = [(2 * i + 1) * (2 * j + 1) | i <- [1..], j <- [1..i]]
 isSumOfPrimeAndTwiceSquare n = any isTwiceSquare $ map (\x -> fromIntegral (n - x)) primes
   where primes = takeWhile (<n) primesSAE
 
-isTwiceSquare n = isInt $ sqrt (n /  2)
+isTwiceSquare n = isInt $ sqrt (n / 2)
 isInt n = n == fromInteger (round n)
 
 primesSAE = 2 : sieve 3 4 (tail primesSAE) (inits primesSAE)
