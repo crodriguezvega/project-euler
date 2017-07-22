@@ -10,7 +10,6 @@ problem49 = [x | x <- permutations, length x > 1]
   where permutations = concat $ map (group . sort) $ map (concat . calculateDifferences) primeGroups
         primeGroups = [x | x <- group $ sort $ map toPrime primes, length x > 2]
 
-calculateDifferences :: [Prime] -> [[Difference]]
 calculateDifferences [] = [[]] 
 calculateDifferences (x:xs) = (map (\y -> Difference (number x) (number y) ((number y - number x))) xs) : calculateDifferences xs
 
@@ -19,7 +18,6 @@ toPrime prime = Prime (digits prime) prime
 
 fromDigits = foldl (\acc x -> 10 * acc + x) 0
 
-toDigits :: Int -> [Int]
 toDigits 0 = []
 toDigits n = n `mod` 10 : toDigits (n `div` 10)
 
