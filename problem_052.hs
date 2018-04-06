@@ -16,4 +16,4 @@ products n = [n * x | x <- [1..6]]
 toDigits 0 = []
 toDigits n = n `mod` 10 : toDigits (n `div` 10)
 
-candidates = [y | x <- [0..], let a = 10 * 10 ^ x, let b = 16 * 10 ^ x, y <- [a..b] ]
+candidates = [y | x <- [0..], let a = 10 * 10 ^ x, let b = 16 * 10 ^ x, y <- [a..b]]
