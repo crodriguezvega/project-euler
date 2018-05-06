@@ -116,9 +116,9 @@ fullHouse cards =
 
 straightFlush cards = if areSameSuit cards && areConsecutive cards then Just(StraightFlush cards) else Nothing
 
-royalFlush cards = if areSameSuit cards && haveTenJackQueenKingAce then Just(RoyalFlush) else Nothing
-  where values                  = map value cards
-        haveTenJackQueenKingAce = (values \\ [Ten, Jack, Queen, King, Ace]) == []
+royalFlush cards = if areSameSuit cards && hasTenJackQueenKingAce then Just(RoyalFlush) else Nothing
+  where values                 = map value cards
+        hasTenJackQueenKingAce = (values \\ [Ten, Jack, Queen, King, Ace]) == []
 
 data Card = Card { value :: Value , suit :: Suit } deriving (Eq)
 
