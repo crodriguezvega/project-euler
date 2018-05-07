@@ -184,11 +184,11 @@ data Hand =
 instance Eq Hand where
   (HighCard Card { value = v }) == (HighCard Card { value = v' }) = v == v'
   (OnePair cards) == (OnePair cards')                             = areEqualValues cards cards'
-  (TwoPairs hand1 hand2) == (TwoPairs hand1' hand2')              = hand1 == hand1' &&  hand2 == hand2'
+  (TwoPairs hand hand') == (TwoPairs hand'' hand''')              = hand == hand'' &&  hand' == hand'''
   (ThreeOfAKind cards) == (ThreeOfAKind cards')                   = areEqualValues cards cards'
   (Straight cards) == (Straight cards')                           = areEqualValues cards cards'
   (Flush _) == (Flush _)                                          = True
-  (FullHouse hand1 hand2) == (FullHouse hand1' hand2')            = hand1 == hand1' && hand2 == hand2'
+  (FullHouse hand hand') == (FullHouse hand'' hand''')            = hand == hand'' &&  hand' == hand'''
   (FourOfAKind cards) == (FourOfAKind cards')                     = areEqualValues cards cards'
   (StraightFlush cards) == (StraightFlush cards')                 = areEqualValues cards cards'
   RoyalFlush == RoyalFlush                                        = True
@@ -214,9 +214,9 @@ instance Ord Hand where
   (OnePair _) `compare` (FourOfAKind _)                                  = LT
   (OnePair _) `compare` (StraightFlush _)                                = LT
   (OnePair _) `compare` RoyalFlush                                       = LT
-  (TwoPairs hand1 hand2) `compare` (TwoPairs hand1' hand2')              = let hand1Comparison = hand1 `compare` hand2'
-                                                                               hand2Comparison = hand2 `compare` hand2'
-                                                                               in if hand1Comparison == EQ then hand2Comparison else hand1Comparison
+  (TwoPairs hand hand') `compare` (TwoPairs hand'' hand''')              = let handComparison = hand' `compare` hand'''
+                                                                               handComparison' = hand `compare` hand''
+                                                                               in if handComparison == EQ then handComparison' else handComparison
   (TwoPairs _ _) `compare` (HighCard _)                                  = GT
   (TwoPairs _ _) `compare` (OnePair _)                                   = GT
   (TwoPairs _ _) `compare` (ThreeOfAKind _)                              = LT
@@ -256,9 +256,9 @@ instance Ord Hand where
   (Flush _) `compare` (FourOfAKind _)                                    = LT
   (Flush _) `compare` (StraightFlush _)                                  = LT
   (Flush _) `compare` RoyalFlush                                         = LT
-  (FullHouse hand1 hand2) `compare` (FullHouse hand1' hand2')            = let hand1Comparison = hand1 `compare` hand2'
-                                                                               hand2Comparison = hand2 `compare` hand2'
-                                                                               in if hand1Comparison == EQ then hand2Comparison else hand1Comparison
+  (FullHouse hand hand') `compare` (FullHouse hand'' hand''')            = let handComparison = hand' `compare` hand'''
+                                                                               handComparison' = hand `compare` hand''
+                                                                               in if handComparison == EQ then handComparison' else handComparison
   (FullHouse _ _) `compare` (HighCard _)                                 = GT
   (FullHouse _ _) `compare` (OnePair _)                                  = GT
   (FullHouse _ _) `compare` (TwoPairs _ _)                               = GT
