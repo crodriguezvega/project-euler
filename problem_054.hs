@@ -216,7 +216,8 @@ instance Ord Hand where
   (OnePair _) `compare` RoyalFlush                                       = LT
   (TwoPairs hand hand') `compare` (TwoPairs hand'' hand''')              = let handComparison = hand' `compare` hand'''
                                                                                handComparison' = hand `compare` hand''
-                                                                               in if handComparison == EQ then handComparison' else handComparison
+                                                                               in if handComparison == EQ then handComparison'
+                                                                                  else handComparison
   (TwoPairs _ _) `compare` (HighCard _)                                  = GT
   (TwoPairs _ _) `compare` (OnePair _)                                   = GT
   (TwoPairs _ _) `compare` (ThreeOfAKind _)                              = LT
@@ -258,7 +259,8 @@ instance Ord Hand where
   (Flush _) `compare` RoyalFlush                                         = LT
   (FullHouse hand hand') `compare` (FullHouse hand'' hand''')            = let handComparison = hand' `compare` hand'''
                                                                                handComparison' = hand `compare` hand''
-                                                                               in if handComparison == EQ then handComparison' else handComparison
+                                                                               in if handComparison == EQ then handComparison'
+                                                                                  else handComparison
   (FullHouse _ _) `compare` (HighCard _)                                 = GT
   (FullHouse _ _) `compare` (OnePair _)                                  = GT
   (FullHouse _ _) `compare` (TwoPairs _ _)                               = GT
