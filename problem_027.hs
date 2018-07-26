@@ -19,15 +19,24 @@ problem27 = fst $ maximumBy (comparing snd) $ quadraticPrimes coefficients
         b = toNegative primes ++ primes
         oddNumbers = [1, 3 .. 999]
 
+toNegative :: [Int] -> [Int]
 toNegative = map (*(-1))
+
+primes :: [Int]
 primes = takeWhile (<1000) primesSAE
+
+isPrime :: Int -> Bool
 isPrime n = elem n primes
+
+quadraticFormula :: Int -> Int -> Int -> Int
 quadraticFormula n a b = n ^ 2 + n * a + b
 
+quadraticPrimes :: [(Int, Int)] -> [(Int, Int)]
 quadraticPrimes []          = []
 quadraticPrimes ((a, b):xs) = (a * b, numberOfPrimes) : quadraticPrimes xs
   where numberOfPrimes = length $ takeWhile (\n -> isPrime $ quadraticFormula n a b) [0..]
 
+primesSAE :: [Int]
 primesSAE = 2 : sieve 3 4 (tail primesSAE) (inits primesSAE)
   where
   sieve x q ps (fs:ft) = [i | (i,True) <- assocs (

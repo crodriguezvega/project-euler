@@ -20,11 +20,13 @@ problem26 = fst $ maximumBy (comparing snd)
                 $ map toInteger primes
             where primes = takeWhile (<1000) primesSAE
 
+multiplicativeOrder :: Integral -> Integral -> Integral
 multiplicativeOrder a 2 = 0
 multiplicativeOrder a 5 = 0
 multiplicativeOrder a n = fst $ head
                               $ dropWhile (\x -> mod (snd x) n /= 0) [(k, a^k - 1) | k <- [1..n]]
 
+primesSAE :: [Int]
 primesSAE = 2 : sieve 3 4 (tail primesSAE) (inits primesSAE)
   where
   sieve x q ps (fs:ft) = [i | (i,True) <- assocs (

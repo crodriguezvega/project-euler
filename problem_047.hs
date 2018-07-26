@@ -9,17 +9,21 @@ import Data.List
 import Data.List (inits)
 import Data.Array.Unboxed
 
+problem47 :: Int
 problem47 = head $ head
                  $ dropWhile (\x -> not (all has4DistinctPrimes x))
                  $ map groupOf4 [210..]
 
+groupOf4 :: Enum a => a -> [a]                
 groupOf4 start = take 4 [start..]
 
+has4DistinctPrimes :: Int -> Bool
 has4DistinctPrimes n = length uniqueFactors == 4
   where factors = primeFactors n
         uniqueFactors = nub factors
 
 -- http://stackoverflow.com/questions/21276844/prime-factors-in-haskell
+primeFactors :: Int -> [Int]
 primeFactors n =
   case factors of
   [] -> [n]
@@ -28,6 +32,7 @@ primeFactors n =
         primes = takeWhile (<= squareRoot n) primesSAE
         factors = take 1 $ filter (\x -> (n `mod` x) == 0) primes
 
+primesSAE :: [Int]
 primesSAE = 2 : sieve 3 4 (tail primesSAE) (inits primesSAE)
   where
   sieve x q ps (fs:ft) = [i | (i,True) <- assocs (

@@ -1,16 +1,20 @@
 problem30 :: Int
 problem30 = sum [n | n <- numbers, isEqualToSumOfFifthPowers n] 
 
+isEqualToSumOfFifthPowers :: Int -> Bool
 isEqualToSumOfFifthPowers n = n == sumFifthPowers
   where sumFifthPowers = sum fifthPowers  
         fifthPowers = map fifthPower digits
         digits = toDigits n
 
+toDigits :: Int -> [Int]
 toDigits 0 = []
 toDigits n = n `mod` 10 : toDigits (n `div` 10)
 
+numbers :: [Int]
 numbers = let upperBound = 355000 in [2..upperBound]
 
+fifthPower :: Int -> Int
 fifthPower 0 = 0
 fifthPower 1 = 1
 fifthPower 2 = 32

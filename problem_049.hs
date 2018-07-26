@@ -6,23 +6,30 @@
 import Data.List
 import Data.Array.Unboxed
 
+problem49 :: [[Difference]]
 problem49 = [x | x <- permutations, length x > 1]
   where permutations = concat $ map (group . sort) $ map (concat . calculateDifferences) primeGroups
         primeGroups = [x | x <- group $ sort $ map toPrime primes, length x > 2]
 
+calculateDifferences :: [Prime] -> [[Difference]]
 calculateDifferences [] = [[]] 
 calculateDifferences (x:xs) = (map (\y -> Difference (number x) (number y) ((number y - number x))) xs) : calculateDifferences xs
 
+toPrime :: Int -> Prime
 toPrime prime = Prime (digits prime) prime
   where digits = fromDigits . sort . reverse . toDigits
 
+fromDigits :: [Int] -> Int
 fromDigits = foldl (\acc x -> 10 * acc + x) 0
 
+toDigits :: Integral a => a -> [a]
 toDigits 0 = []
 toDigits n = n `mod` 10 : toDigits (n `div` 10)
 
+primes :: [Int]
 primes = takeWhile (<10000) $ dropWhile (<999) primesSAE
 
+primesSAE :: [Int]
 primesSAE = 2 : sieve 3 4 (tail primesSAE) (inits primesSAE)
   where
   sieve x q ps (fs:ft) = [i | (i,True) <- assocs (

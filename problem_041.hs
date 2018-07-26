@@ -11,15 +11,22 @@ import Data.List
 import Data.List (inits)
 import Data.Array.Unboxed
 
+problem41 :: Int
 problem41 = head $ filter isPrime pandigitals 
   where primes = takeWhile (<= 7654321) primesSAE
         isPrime n = elem n primes
         pandigitals = reverse $ sort $ pandigital 7 ++ pandigital 4
 
+pandigital7Digits :: [Int]
 pandigital7Digits = pandigital 7
+
+pandigital4Digits :: [Int]
 pandigital4Digits = pandigital 4
 
+pandigital :: Int -> [Int]
 pandigital n = map fromDigits $ perms [1..n]
+
+fromDigits :: [Int] -> Int
 fromDigits = foldl (\acc x -> 10 * acc + x) 0
 
 -- http://stackoverflow.com/questions/2710713/algorithm-to-generate-all-possible-permutations-of-a-list
@@ -31,6 +38,7 @@ splits :: [a] -> [([a], [a])]
 splits []     = [([], [])]
 splits (a:as) = ([], a:as) : [(a:bs, cs) | (bs, cs) <- splits as]
 
+primesSAE :: [Int]
 primesSAE = 2 : sieve 3 4 (tail primesSAE) (inits primesSAE)
   where
   sieve x q ps (fs:ft) = [i | (i,True) <- assocs (

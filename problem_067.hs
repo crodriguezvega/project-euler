@@ -1,3 +1,4 @@
+problem67 :: IO Int
 problem67 = do
   content <- readLines "files/problem_067.txt"
   return $ head $ maxSumPath $ reverse $ map readNumbers content

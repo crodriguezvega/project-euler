@@ -1,5 +1,6 @@
 import Data.List
 
+problem54 :: IO Int
 problem54 = do
   content <- readLines "files/problem_054.txt"
   return $ length
@@ -7,14 +8,18 @@ problem54 = do
          $ map compare''
          $ map parseHands content
 
+readLines :: FilePath -> IO [String]
 readLines = fmap lines . readFile
 
+parseHands :: String -> ((Maybe Hand, Cards), (Maybe Hand, Cards))
 parseHands = toHands . split . (map toCard) . words
   where split x = (take 5 x, drop 5 x)
         toHands x = (toHand $ fst x, toHand $ snd x)
 
+toCard :: [Char] -> Card
 toCard (v:s:[]) = Card { value = toValue v, suit = toSuit s } 
 
+toValue :: Char -> Value
 toValue char =
   case char of
   '2' -> Two
@@ -31,6 +36,7 @@ toValue char =
   'K' -> King
   'A' -> Ace
 
+toSuit :: Char -> Suit
 toSuit char = 
   case char of
   'C' -> Clubs
@@ -38,6 +44,7 @@ toSuit char =
   'H' -> Hearts
   'S' -> Spades
 
+toHand :: Cards -> (Maybe Hand, Cards)
 toHand cards = (Nothing, cards) <+>
                royalFlush <+>
                straightFlush <+>
@@ -54,10 +61,16 @@ toHand cards = (Nothing, cards) <+>
   Nothing   -> (f cards, cards)
   _         -> (hand, cards)
 
+isLengthEqualto :: Foldable t => Int -> t a -> Bool
 isLengthEqualto n x = length x == n
+
+isEqualValue :: Card -> Card -> Bool
 isEqualValue card card' = value card == value card'
+
+areEqualValues :: Cards -> Cards -> Bool
 areEqualValues cards cards' = all (==True) $ map (\x -> isEqualValue (fst x) (snd x)) $ zip (sort cards) (sort cards')
 
+compare' :: Cards -> Cards -> Ordering
 compare' cards cards' = let f = (map value) . reverse . sort in (f cards) `compare` (f cards')
 
 compare'' :: ((Maybe Hand, Cards), (Maybe Hand, Cards)) -> Result
@@ -76,36 +89,47 @@ compare'' ((Just hand, cards), (Just hand', cards')) =
             GT -> Player1Wins
             EQ -> Draw
 
+areConsecutive :: Cards -> Bool            
 areConsecutive = isSucc . (map value) . sort
+
+areSameSuit :: Cards -> Bool
 areSameSuit cards = (length $ nub $ map suit cards) == 1
 
+isSucc :: (Eq a, Enum a) => [a] -> Bool
 isSucc (a:b:c:d:e:[]) = (succ a == b && succ b == c && succ c == d && succ d == e)
 isSucc _ = False
 
+highCard :: Cards -> Maybe Hand
 highCard cards = Just $ HighCard $ head $ reverse $ sort cards
 
+onePair :: Cards -> Maybe Hand
 onePair cards = 
   case f cards of
   (x:[]) -> Just(OnePair x)
   _      -> Nothing
   where f = (filter (isLengthEqualto 2)) . (groupBy isEqualValue) . sort
 
+twoPairs :: Cards -> Maybe Hand
 twoPairs cards = 
   case f cards of
   (x:y:[]) -> Just(TwoPairs (OnePair x) (OnePair y))
   _        -> Nothing
   where f = (filter (isLengthEqualto 2)) . (groupBy isEqualValue) . sort
 
+threeOfAKind :: Cards -> Maybe Hand
 threeOfAKind cards =
   case f cards of
   (x:[]) -> Just(ThreeOfAKind x)
   _      -> Nothing
   where f = (filter (isLengthEqualto 3)) . (groupBy isEqualValue) . sort
      
+straight :: Cards -> Maybe Hand
 straight cards = if areConsecutive cards then Just(Straight cards) else Nothing
 
+flush :: Cards -> Maybe Hand
 flush cards = if areSameSuit cards then Just(Flush cards) else Nothing
 
+fullHouse :: Cards -> Maybe Hand
 fullHouse cards = 
   case threeOfAKind cards of
   Nothing                    -> Nothing
@@ -114,8 +138,10 @@ fullHouse cards =
                                     Nothing                 -> Nothing
                                     Just (OnePair cards''') -> Just(FullHouse (ThreeOfAKind cards') (OnePair cards'''))
 
+straightFlush :: Cards -> Maybe Hand                                  
 straightFlush cards = if areSameSuit cards && areConsecutive cards then Just(StraightFlush cards) else Nothing
 
+royalFlush :: Cards -> Maybe Hand
 royalFlush cards = if areSameSuit cards && hasTenJackQueenKingAce then Just(RoyalFlush) else Nothing
   where values                 = map value cards
         hasTenJackQueenKingAce = (values \\ [Ten, Jack, Queen, King, Ace]) == []
@@ -293,6 +319,7 @@ instance Ord Hand where
   RoyalFlush `compare` RoyalFlush                                        = EQ
   RoyalFlush `compare` _                                                 = GT
 
+getCards :: Hand -> Cards  
 getCards (HighCard card)        = [card]
 getCards (OnePair cards)        = cards
 getCards (TwoPairs hand hand')  = getCards hand ++ getCards hand' 

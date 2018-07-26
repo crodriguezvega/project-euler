@@ -8,7 +8,7 @@ import Data.List (inits)
 import Data.Array.Unboxed
 import qualified Data.Map as Map
 
-type IntMap = Map.Map Int Int
+type IntMap = Map.Map Int [Int]
 
 problem33 :: Int
 problem33 = quot denominatorProduct greatestCommonDivisor
@@ -17,6 +17,7 @@ problem33 = quot denominatorProduct greatestCommonDivisor
         denominatorProduct    = product $ map snd solutions
         greatestCommonDivisor = (gcd numeratorProduct denominatorProduct)
 
+isNonTrivial :: (Int, Int) -> Bool
 isNonTrivial fraction
   | numerator `mod` 10 == 0 || denominator `mod` 10 == 0 = False
   | (length singleNumerator) > 1 || (length singleDenominator) > 1 = False
@@ -30,6 +31,7 @@ isNonTrivial fraction
         singleDenominator  = denominatorDigits \\ numeratorDigits
         possibleFractions  = [(num, den) | num <- singleNumerator, den <- singleDenominator, den > num]
 
+reduceFraction :: (Int, Int) -> (Int, Int)
 reduceFraction fraction = (reducedNumerator, reducedDenominator)
   where numerator          = fst fraction
         denominator        = snd fraction
@@ -41,19 +43,24 @@ reduceFraction fraction = (reducedNumerator, reducedDenominator)
 fractions :: [(Int, Int)]
 fractions = [(num, den) | num <- [10..99], den <- [10..99], den > num]
 
+factors :: IntMap
 factors = foldl (\m n -> Map.insert n (factorization n primes) m) Map.empty [1..99]
 
+factorization :: Integral a => a -> [a] -> [a]
 factorization number primes@(p:ps)
   | number == 1         = []
   | number `mod` p == 0 = p : factorization quotient primes
   | otherwise           = factorization number ps
   where quotient = number `div` p
 
+toDigits :: Integral a => a -> [a]
 toDigits 0 = []
 toDigits n = n `mod` 10 : toDigits (n `div` 10)
 
+primes :: [Int]
 primes = takeWhile (<100) primesSAE
 
+primesSAE :: [Int]
 primesSAE = 2 : sieve 3 4 (tail primesSAE) (inits primesSAE)
   where
   sieve x q ps (fs:ft) = [i | (i,True) <- assocs (
