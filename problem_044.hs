@@ -1,5 +1,6 @@
 import Data.Fixed
 
+problem44 :: Int
 problem44 = case findPair pentagonalNumbers pentagonalNumbers of
               Just (x, n) -> x - n
               Nothing     -> 0 
